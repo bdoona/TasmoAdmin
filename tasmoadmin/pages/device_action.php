@@ -283,8 +283,7 @@
 						</div>
 						<?php if( isset( $status->StatusSTS->POWER ) ): ?>
 							<?php
-							$friendlyName = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
-								? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
+							$friendlyName = Sonoff::getRecommendedFriendlyName($status->Status);
 							?>
 							<div class="form-row">
 								<div class="form-group col col-12 col-sm-9">
@@ -326,8 +325,7 @@
 
 						while( isset( $status->StatusSTS->$power ) )  : ?>
 							<?php $channelFound = TRUE;
-							$friendlyName       = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
-								? $status->Status->FriendlyName[ $i-1 ] : $status->Status->FriendlyName." ".$i
+							$friendlyName = Sonoff::getRecommendedFriendlyName($status->Status, $i-1);
 							?>
 							<div class="form-row">
 								<div class="form-group col col-12 col-sm-9">
@@ -378,8 +376,7 @@
 						<?php if( !isset( $status->StatusSTS->POWER ) && !$channelFound ) :
 							//no channel found?>
 							<?php
-							$friendlyName = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
-								? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
+							$friendlyName = Sonoff::getRecommendedFriendlyName($status->Status);
 							?>
 							<div class="form-row">
 								<div class="form-group col col-12 col-sm-9">

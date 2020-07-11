@@ -1151,6 +1151,35 @@
 
 			return $decodedOptopns;
 		}
+
+		// Add the device name to the start of the friendly name.
+		// It can become confusing when adding Kitchen/Switch, Lounge/Switch
+		// if all the friendly names end up being Switch.
+		public static function getRecommendedFriendlyName($status, $i = 0){
+			// Based on
+			// $friendlyName = $device->Status->DeviceName." ".(is_array( $device->Status->FriendlyName ) //array since 5.12.0h
+			// 	? ( isset( $device->Status->FriendlyName[ $i-1 ] ) ? $device->Status->FriendlyName[ $i-1 ]
+			// 		: "" ) : $device->Status->FriendlyName." ".$i);
+
+			$result = "";
+			if ( is_array( $status->FriendlyName ) ) {
+				if ( isset( $status->FriendlyName[ $i ] ) ) {
+					$result = $status->FriendlyName[ $i ];
+				}
+			} else {
+				$result = $status->FriendlyName;
+				if ( $i != 0 ) {
+					$result = $result." ".( $i + 1 );
+				}
+			}
+
+			// Prepend the device name (if it exists)
+			if ( isset( $status->DeviceName ) ) {
+				$result = $status->DeviceName." ".$result;
+			}
+
+			return trim($result);
+		}
 	}
 
 
